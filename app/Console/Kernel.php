@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
             else{
                 $output = $ssh->exec($command);
             }
-        })->everyMinute();
+        })->dailyAt('06:00');
     }
 
     /**
