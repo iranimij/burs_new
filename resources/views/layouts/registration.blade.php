@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="{{asset("rtl.css")}}" rel="stylesheet">
+    <style>
+        img {
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body class="hold-transition login-page">
 
