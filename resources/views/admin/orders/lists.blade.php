@@ -1,0 +1,101 @@
+@extends('layouts.dashboard')
+@section("title","لیست اکانت ها")
+@section("content")
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    @if(Session::has('success'))
+                        <div class="alert alert-success"> {{Session::get('success')}}</div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="m-0">لیست سفارشات</h5>
+                        </div>
+                        <div class="card-body col-md-12">
+
+                                <div class="card-body">
+                                    @if(sizeof($orders) > 0)
+
+                                    <table class="table table-bordered">
+                                        <thead>
+
+                                        <tr>
+                                            <th>اکانت</th>
+                                            <th>قیمت</th>
+                                            <th>تعداد</th>
+                                            <th>نوع</th>
+                                            <th style="width: 20%">
+                                                عملیات
+                                            </th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+
+                                        <?PHP
+                                        $kargozari_array = [
+                                            "mofid" => "مفید",
+                                            "farabi" => "فارابی",
+                                            "agah" => "آگاه",
+                                            "atie" => "آتیه",
+                                        ];
+                                        $panel_array = [
+                                            "easytrader" => "ایزی تریدر",
+                                            "onlineplus" => "آنلاین پلاس",
+                                            "mofidonline" => "مفید آنلاین",
+                                            "exir" => "اکسیر",
+                                            "asatrader" => "آسا تریدر",
+                                            "farabixo" => "فارابیکسو",
+                                        ];
+                                        ?>
+
+                                        @foreach($orders as $account)
+                                        <tr>
+                                            <td> {{$account->account->username}}</td>
+                                            <td>
+                                                {{$account->price}}
+                                            </td>
+                                            <td>
+                                                {{$account->number}}
+                                            </td>
+                                            <td>
+                                                {{$account->type}}
+                                            </td>
+
+                                            <td>
+                                                <a href="{{url("orders/".$account->id.'/edit')}}" class="badge bg-danger">ویرایش</a>
+                                                <a href="{{url("orders/".$account->id.'/delete')}}" class="badge bg-success">حذف</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+
+                                    </table>
+                                    @else
+                                    <h3>سفارشی ثبت نشده است.</h3>
+                                    @endif
+                                </div>
+                                <!-- /.card-body -->
+                                {{$orders->links()}}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+@endsection
