@@ -54,6 +54,7 @@ class Kernel extends ConsoleKernel
                 $namad_id = $order->namad;
                 $sahm_number = $order->number;
                 $price = $order->price;
+                $server = $order->server;
                 $type = $order->type; // is buy or sell
 
 

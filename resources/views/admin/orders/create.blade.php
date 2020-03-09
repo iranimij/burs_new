@@ -86,6 +86,14 @@
                                             <option value="sell" @if(isset($order->type)) @if($order->type == "sell") selected @endif @endif>فروش</option>
                                         </select>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">سرور</label>
+                                        <select class="form-control" name="myserver" id="panel" autocomplete="off">
+                                            <option value="1.1.1.1" @if(isset($order->server)) @if($order->server == "1.1.1.1") selected @endif @endif>سرور تست اول</option>
+                                            <option value="2.2.2.2" @if(isset($order->server)) @if($order->server == "2.2.2.2") selected @endif @endif>سرور تست دوم</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
 

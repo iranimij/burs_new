@@ -47,6 +47,7 @@ class OrderController extends Controller
             'account_id' => 'required',
             'namad' => 'required|string',
             'price' => 'required|numeric',
+            'myserver' => 'required',
             'number' => 'required|numeric',
             'type' => 'required',
         ]);
@@ -55,6 +56,7 @@ class OrderController extends Controller
         $orders->account_id = $request->account_id;
         $orders->user_id = auth()->user()->id;
         $orders->namad = $request->namad;
+        $orders->server = $request->myserver;
         $orders->number = $request->number;
         $orders->price = $request->price;
         $orders->type = $request->type;
@@ -103,6 +105,7 @@ class OrderController extends Controller
             'account_id' => 'required',
             'namad' => 'required|string',
             'price' => 'required|numeric',
+            'myserver' => 'required',
             'number' => 'required|numeric',
             'type' => 'required',
         ]);
@@ -113,6 +116,7 @@ class OrderController extends Controller
                     "account_id" => $request->account_id,
                     "user_id" => auth()->user()->id,
                     "namad" => $request->namad,
+                    "server" => $request->myserver,
                     "number" => $request->number,
                     "price" => $request->price,
                     "type" => $request->type,
