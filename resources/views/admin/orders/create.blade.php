@@ -71,12 +71,12 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">قیمت (به تومان)</label>
                                         <input type="number" class="form-control" id="exampleInputEmail1"
-                                               placeholder="نام کاربری" name="price" value="@if(isset($order)){{$order->price}}@endif">
+                                               placeholder="قیمت (به تومان)" name="price" value="@if(isset($order)){{$order->price}}@endif">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">تعداد</label>
                                         <input type="number" class="form-control" id="exampleInputPassword1"
-                                               placeholder="کلمه عبور" name="number" value="@if(isset($order)){{$order->number}}@endif">
+                                               placeholder="تعداد" name="number" value="@if(isset($order)){{$order->number}}@endif">
                                     </div>
 
                                     <div class="form-group">
