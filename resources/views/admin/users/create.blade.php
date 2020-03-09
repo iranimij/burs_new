@@ -55,7 +55,22 @@
                                             <option value="1" @if(isset($account->permission)) @if($account->permission == 1) selected @endif @endif>مدیر</option>
                                             <option value="2" @if(isset($account->permission)) @if($account->permission == 2) selected @endif @endif>مشتری</option>
                                         </select>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">سرورها</label>
+                                            <select class="form-control select2" name="user_servers[]" id="broker" autocomplete="off"  multiple="multiple">
+                                                @if(isset($account) && !empty($account->server))
+                                                    @foreach(json_decode($account->server) as $namad)
+                                                        <option value="{{$namad}}" selected >{{$namad}}</option>
+                                                    @endforeach
+                                                @endif
+
+                                            </select>
+                                        </div>
                                     </div>
+
+
+
 
                                 </div>
                                 <!-- /.card-body -->
@@ -71,4 +86,14 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+@endsection
+@section('custom_script')
+
+    <script>
+        $('.select2').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            dir: "rtl"
+        });
+    </script>
 @endsection

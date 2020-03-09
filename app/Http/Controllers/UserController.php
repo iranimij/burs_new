@@ -45,12 +45,14 @@ class UserController extends Controller
             'email' => 'required|string|unique:users',
             'password' => 'required|string|min:8',
             'name' => 'required|string',
+            'user_servers' => 'required',
             'permission' => 'required',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'server' => json_encode($request->user_servers),
             'password' => Hash::make($request->password),
             'permission' => intval($request->permission),
         ]);
@@ -100,12 +102,14 @@ class UserController extends Controller
             }],
             'password' => 'string|min:8|nullable',
             'name' => 'required|string',
+            'user_servers' => 'required',
             'permission' => 'required',
         ]);
         $update_arr = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
+            'server' => json_encode($request->user_servers),
             'permission' => $request->permission,
         ];
         if ($request->password == ""){
