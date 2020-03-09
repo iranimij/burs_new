@@ -18,7 +18,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::where("user_id", auth()->user()->id)->orderby("id", "DESC")->paginate(20);
+        if (auth()->user()->permission == "1"){
+            $orders = Order::orderby("id", "DESC")->paginate(20);
+        }else{
+            $orders = Order::where("user_id", auth()->user()->id)->orderby("id", "DESC")->paginate(20);
+        }
+
+
         return view('admin.orders.lists', ['orders' => $orders]);
     }
 
@@ -29,7 +35,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $accounts = Account::all();
+        $accounts = Account::where("user_id", auth()->user()->id)->get();
         $namad_json = file_get_contents(asset("json/namad.json"));
         $namad_arr = json_decode($namad_json);
         return view('admin.orders.create', ['accounts' => $accounts, 'namads' => $namad_arr]);
@@ -86,7 +92,7 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order = Order::where("id", $id)->first();
-        $accounts = Account::all();
+        $accounts = Account::where("user_id", auth()->user()->id)->get();
         $namad_json = file_get_contents(asset("json/namad.json"));
         $namad_arr = json_decode($namad_json);
         return view('admin.orders.create', ['order' => $order, 'accounts' => $accounts, 'namads' => $namad_arr]);

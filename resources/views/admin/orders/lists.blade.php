@@ -32,6 +32,9 @@
                                         <thead>
 
                                         <tr>
+                                            @if(auth()->user()->permission == 1)
+                                            <th>کابر</th>
+                                            @endif
                                             <th>اکانت</th>
                                             <th>قیمت</th>
                                             <th>تعداد</th>
@@ -63,6 +66,9 @@
 
                                         @foreach($orders as $account)
                                         <tr>
+                                            @if(auth()->user()->permission == 1)
+                                            <td> {{$account->user->email}}</td>
+                                            @endif
                                             <td> {{$account->account->username}}</td>
                                             <td>
                                                 {{$account->price}}
