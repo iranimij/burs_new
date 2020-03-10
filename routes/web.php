@@ -13,9 +13,9 @@
 
 use function foo\func;
 
-Route::get('/', function () {
+Route::middleware(['guest'])->get('/', function () {
     return view('auth.login');
-})->middleware(['guest']);
+});
 
 Auth::routes();
 
@@ -37,7 +37,11 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resources([
         'users' => 'UserController',
+        'servers' => 'ServerController',
     ]);
     Route::get('/users/{id}/delete', 'UserController@deleteAccount');
+    Route::get('/all-orders', 'OrderController@showAllOrders');
+    Route::get('/accounts-all', 'AccountController@showAllAccounts');
+    Route::post('/check-server-is-validate', 'ServerController@checkServerIsValid');
 
 });

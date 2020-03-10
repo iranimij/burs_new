@@ -39,7 +39,7 @@
                                 "farabixo" => "فارابیکسو",
                             ];
                             $update_endpoint = isset($order->id) ? '/'. $order->id : "";
-                            ?>
+                            use App\Server;?>
                             <form role="form" method="post" action="{{url("/orders".$update_endpoint)}}">
                                 @csrf
                                 @if(isset($order))
@@ -92,7 +92,10 @@
                                         <select class="form-control" name="myserver" id="panel" autocomplete="off">
                                             @if(!empty(auth()->user()->server))
                                                 @foreach(json_decode(auth()->user()->server) as $row)
-                                            <option value="{{$row}}" >{{$row}}</option>
+                                                    <?PHP
+                                                    $server_data = Server::where("id",$row)->first();
+                                                    ?>
+                                            <option value="{{$server_data->id}}" @if(isset($order->server) && $order->server == $server_data->id) selected @endif><?=$server_data->name?></option>
                                                 @endforeach
                                             @endif
                                         </select>

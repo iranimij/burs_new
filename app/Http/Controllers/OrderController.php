@@ -18,12 +18,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->permission == "1"){
-            $orders = Order::orderby("id", "DESC")->paginate(20);
-        }else{
+//        if (auth()->user()->permission == "1"){
+//            $orders = Order::orderby("id", "DESC")->paginate(20);
+//        }
             $orders = Order::where("user_id", auth()->user()->id)->orderby("id", "DESC")->paginate(20);
-        }
 
+
+
+        return view('admin.orders.lists', ['orders' => $orders]);
+    }
+
+    function showAllOrders()
+    {
+
+        $orders = Order::orderby("id", "DESC")->paginate(20);
 
         return view('admin.orders.lists', ['orders' => $orders]);
     }

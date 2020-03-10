@@ -17,11 +17,17 @@ class AccountController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->permission == "1") {
-            $accoutns = Account::orderby("id","DESC")->paginate(20);
-        }else{
+
             $accoutns = Account::where("user_id",auth()->user()->id)->orderby("id","DESC")->paginate(20);
-        }
+
+
+        return view('admin.accounts.lists', ['accounts' => $accoutns]);
+    }
+    public function showAllAccounts()
+    {
+
+            $accoutns = Account::orderby("id","DESC")->paginate(20);
+
 
         return view('admin.accounts.lists', ['accounts' => $accoutns]);
     }

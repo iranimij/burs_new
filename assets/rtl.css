@@ -168,3 +168,14 @@ ul{
 .select2-container--default .select2-dropdown .select2-search__field, .select2-container--default .select2-search--inline .select2-search__field {
     text-align: right;
 }
+.login-logo img{
+
+    width: 100%;
+}
+.login-logo, .register-logo{
+    margin-bottom: 0;
+}
+.login-box, .register-box{
+    border-radius: 10px;
+    overflow: hidden;
+}

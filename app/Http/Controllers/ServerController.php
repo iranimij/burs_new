@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Order;
+use App\Server;
 use App\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use phpseclib\Net\SSH2;
 
-class UserController extends Controller
+class ServerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +22,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderby("id","DESC")->paginate(20);
-        return view('admin.users.lists', ['users' => $users]);
+        $users = Server::orderby("id","DESC")->paginate(20);
+        $js_vars =  [
+            "url" => url("check-server-is-validate")
+        ];
+        return view('admin.servers.lists', ['users' => $users,'js_vars' => $js_vars]);
     }
 
     /**
@@ -30,7 +36,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $data = [
+          'js_vars' => [
+              "url" => url("check-server-is-validate")
+          ]
+        ];
+        return view('admin.servers.create',$data);
     }
 
     /**
@@ -42,23 +53,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|unique:users',
-            'password' => 'required|string|min:8',
             'name' => 'required|string',
-            'user_servers' => 'required',
-            'permission' => 'required',
+            'ip' => 'required|string',
+            'port' => 'required|string',
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'server' => json_encode($request->user_servers),
-            'password' => Hash::make($request->password),
-            'permission' => intval($request->permission),
-        ]);
+        $orders = new Server();
+
+        $orders->name = $request->name;
+        $orders->ip = $request->ip;
+        $orders->port = $request->port;
+        $orders->username = $request->username;
+        $orders->password = $request->password;
+
+        $orders->save();
 
         Session::flash('success' , "با موفقیت ذخیره شد.");
-        return redirect("users");
+        return redirect("servers");
     }
 
     /**
@@ -80,8 +93,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $account = User::where("id",$id)->first();
-        return view('admin.users.create', ['account' => $account]);
+        $js_vars =  [
+                "url" => url("check-server-is-validate")
+            ];
+        $account = Server::where("id",$id)->first();
+        return view('admin.servers.create', ['account' => $account,'js_vars' => $js_vars]);
     }
 
     /**
@@ -94,21 +110,23 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'password' => 'string|min:8|nullable',
             'name' => 'required|string',
-            'user_servers' => 'required',
-            'permission' => 'required',
+            'ip' => 'required|string',
+            'port' => 'required|string',
+            'username' => 'required',
+            'password' => 'required',
         ]);
         $update_arr = [
             'name' => $request->name,
+            'ip' => $request->ip,
+            'port' => $request->port,
+            'username' => $request->username,
             'password' => $request->password,
-            'server' => json_encode($request->user_servers),
-            'permission' => $request->permission,
         ];
         if ($request->password == ""){
             unset($update_arr['password']);
         }
-        User::where('id', $id)
+        Server::where('id', $id)
             ->update(
                 $update_arr
             );
@@ -129,8 +147,34 @@ class UserController extends Controller
 
     function deleteAccount($id){
 
-        User::where("id",$id)->delete();
+        Server::where("id",$id)->delete();
         Session::flash('success' , "با موفقیت حذف شد.");
         return redirect()->back();
+    }
+
+    public function checkServerIsValid(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+            'ip' => 'required|string',
+            'port' => 'required|string',
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        $host = $request->ip;
+        $username = $request->username;
+        $password = $request->password;
+
+        $ssh = new SSH2($host);
+        if (!$ssh->login($username, $password)) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => true,
+            ]);
+        }
     }
 }

@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">کلمه عبور</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                        <input type="password" class="form-control" id="exampleInputPassword1"
                                                placeholder="کلمه عبور" name="password" value="@if(isset($account)){{$account->password}}@endif">
                                     </div>
 

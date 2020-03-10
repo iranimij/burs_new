@@ -23,8 +23,8 @@
         }
     </style>
 </head>
-<body class="hold-transition login-page">
-
+<body class="hold-transition login-page" style="background: url(<?=asset("images/background-img.jpg")?>);background-size: 100% 100%;background-repeat: no-repeat;">
+<span style="width: 100%;height: 100%;background: #fff;position: fixed;z-index: -1;opacity: 0.3"></span>
 <!-- /.login-box -->
 @yield('content')
 <!-- jQuery -->

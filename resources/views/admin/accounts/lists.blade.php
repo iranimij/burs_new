@@ -30,6 +30,9 @@
                                         <thead>
 
                                         <tr>
+                                            @if(auth()->user()->permission == 1)
+                                            <th>نام کاربری مدیر اکانت</th>
+                                            @endif
                                             <th>کارگزاری</th>
                                             <th>پنل</th>
                                             <th style="width: 20%">
@@ -58,6 +61,9 @@
                                         ?>
                                         @foreach($accounts as $account)
                                         <tr>
+                                            @if(auth()->user()->permission == 1)
+                                                <td> {{$account->user->email}}</td>
+                                            @endif
                                             <td>{{$kargozari_array[$account->kargozari]}}</td>
                                             <td>
                                                 {{$panel_array[$account->panel]}}

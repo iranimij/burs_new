@@ -24,7 +24,7 @@
                         </div>
                         <div class="card-body col-md-6">
                             <?PHP
-                            $update_endpoint = isset($account->id) ? '/'. $account->id : "";
+                            use App\Server;$update_endpoint = isset($account->id) ? '/'. $account->id : "";
                             ?>
                             <form role="form" method="post" action="{{url("/users".$update_endpoint)}}">
                                 @csrf
@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">نام کاربری (ایمیل)</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1"
-                                               placeholder="نام کاربری" name="email" value="@if(isset($account)){{$account->email}}@endif">
+                                               placeholder="نام کاربری" name="email" value="@if(isset($account)){{$account->email}}@endif" @if(isset($account)) disabled @endif>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">کلمه عبور</label>
@@ -55,16 +55,23 @@
                                             <option value="1" @if(isset($account->permission)) @if($account->permission == 1) selected @endif @endif>مدیر</option>
                                             <option value="2" @if(isset($account->permission)) @if($account->permission == 2) selected @endif @endif>مشتری</option>
                                         </select>
-
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">سرورها</label>
-                                            <select class="form-control select2" name="user_servers[]" id="broker" autocomplete="off"  multiple="multiple">
-                                                @if(isset($account) && !empty($account->server))
-                                                    @foreach(json_decode($account->server) as $namad)
-                                                        <option value="{{$namad}}" selected >{{$namad}}</option>
-                                                    @endforeach
-                                                @endif
-
+                                            <select class="form-control select2" name="user_servers[]" id="broker"
+                                                    autocomplete="off" multiple="multiple">
+                                                {{--                                                @if(isset($account) && !empty($account->server))--}}
+                                                {{--                                                    @foreach(json_decode($account->server) as $namad)--}}
+                                                {{--                                                        <option value="{{$namad}}" selected >{{$namad}}</option>--}}
+                                                {{--                                                    @endforeach--}}
+                                                {{--                                                @endif--}}
+                                                <?PHP
+                                                $servers = Server::all();
+                                                ?>
+                                                @if(is_object($servers))
+                                                    @foreach($servers as $server)
+                                                        <option value="{{$server->id}}" @if(!empty($account->server) && in_array($server->id,json_decode($account->server))) selected @endif>{{$server->name}}</option>
+                                                        @endforeach
+                                                        @endif
                                             </select>
                                         </div>
                                     </div>
