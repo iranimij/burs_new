@@ -90,12 +90,13 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">سرور</label>
                                         <select class="form-control" name="myserver" id="panel" autocomplete="off">
+                                            <option value="">انتخاب کنید</option>
                                             @if(!empty(auth()->user()->server))
                                                 @foreach(json_decode(auth()->user()->server) as $row)
                                                     <?PHP
                                                     $server_data = Server::where("id",$row)->first();
                                                     ?>
-                                            <option value="@if(isset($order->server)){{$server_data->id}}@endif" @if(isset($order->server) && $order->server == $server_data->id) selected @endif><?=isset($server_data->name) ? $server_data->name : ""?></option>
+                                            <option value="{{$server_data->id}}" @if(isset($order->server) && $order->server == $server_data->id) selected @endif><?=isset($server_data->name) ? $server_data->name : ""?></option>
                                                 @endforeach
                                             @endif
                                         </select>
