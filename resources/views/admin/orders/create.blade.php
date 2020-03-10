@@ -96,7 +96,7 @@
                                                     <?PHP
                                                     $server_data = Server::where("id",$row)->first();
                                                     ?>
-                                            <option value="{{$server_data->id}}" @if(isset($order->server) && $order->server == $server_data->id) selected @endif><?=isset($server_data->name) ? $server_data->name : ""?></option>
+                                            <option value="@if(isset($server_data->id)){{$server_data->id}}@endif" @if(isset($order->server) && $order->server == $server_data->id) selected @endif><?=isset($server_data->name) ? $server_data->name : ""?></option>
                                                 @endforeach
                                             @endif
                                         </select>
