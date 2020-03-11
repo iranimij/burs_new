@@ -22,7 +22,7 @@ class OrderController extends Controller
 //        if (auth()->user()->permission == "1"){
 //            $orders = Order::orderby("id", "DESC")->paginate(20);
 //        }
-            $orders = Order::where("user_id", auth()->user()->id)->orderby("id", "DESC")->paginate(20);
+            $orders = Order::where([["user_id", auth()->user()->id],["deleted",null]])->orderby("id", "DESC")->paginate(20);
 
 
 
@@ -32,7 +32,7 @@ class OrderController extends Controller
     function showAllOrders()
     {
 
-        $orders = Order::orderby("id", "DESC")->paginate(20);
+        $orders = Order::where("deleted",null)->orderby("id", "DESC")->paginate(20);
 
         return view('admin.orders.lists', ['orders' => $orders]);
     }
@@ -101,7 +101,10 @@ class OrderController extends Controller
     public function edit($id)
     {
         addCheckUserIsValidate(Order::where("id",$id)->first()->user_id);
-        $order = Order::where("id", $id)->first();
+        $order = Order::where([["id", $id],["deleted",null]])->first();
+        if (!$order){
+            abort(404);die();
+        };
         $accounts = Account::where("user_id", auth()->user()->id)->get();
         $namad_json = file_get_contents(asset("json/namad.json"));
         $namad_arr = json_decode($namad_json);
@@ -157,7 +160,9 @@ class OrderController extends Controller
     function deleteAccount($id)
     {
         addCheckUserIsValidate(Order::where("id",$id)->first()->user_id);
-        Order::where("id", $id)->delete();
+        Order::where("id", $id)->update([
+            "deleted" => 1
+        ]);
         Session::flash('success', "با موفقیت حذف شد.");
         return redirect()->back();
     }

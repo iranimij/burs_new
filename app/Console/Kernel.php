@@ -61,7 +61,9 @@ class Kernel extends ConsoleKernel
                 //place for send order command
 
 
-                Order::where("id",$order->id)->delete();
+                Order::where("id",$order->id)->update([
+                    "deleted" => 1
+                ]);
             }
             //this is time for run code
         })->dailyAt('08:00');
