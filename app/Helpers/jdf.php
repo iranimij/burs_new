@@ -647,3 +647,47 @@ function addCheckUserIsValidate($id){
         abort(404);
     }
 }
+
+function getKargozary(){
+    return [
+        "mofid" => "مفید",
+        "isatis" => "ایساتیس",
+        "mobin" => "مبین",
+        "agah" => "آگاه",
+        "pegah" => "پگاه",
+        "shahedan" => "شاهدان",
+        "ordibehesht" => "اردیبهشت",
+        "mellat" => "ملت",
+        "aban" => "آبان",
+        "danayan" => "دانایان",
+        "farabi" => "فارابی",
+        "noandishan" => "نواندیشان",
+        "agri" => "کشاورزی",
+        "bidar" => "بیدار",
+        "atisaz" => "آتیساز",
+        "kharazmi" => "خارزمی",
+        "maskan" => "مسکن",
+        "sepehr" => "سپهر",
+        "hafez" => "حافظ",
+        "tadbir" => "تدبیر",
+        "arman" => "آرمان",
+        "dey" => "دی",
+        "saman" => "سامان",
+        "sahand" => "سهند",
+        "danesh" => "دانش",
+        "ebraz" => "ابراز",
+        "ansar" => "انصار",
+        "melal" => "ملل",
+    ];
+}
+
+function getPanel(){
+    return [
+      "easytrader" => "ایسی تریدر",
+      "onlineplus" => "آنلاین پلاس",
+      "mofidonline" => "مفید آنلاین",
+      "easytrader2" => "ایسی تریدر 2",
+      "farabixo" => "فارابیکسو",
+      "exir" => "اکسیر",
+    ];
+}

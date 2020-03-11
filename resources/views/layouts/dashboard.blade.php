@@ -387,6 +387,9 @@ $current_url = url()->current();
             }
         }
     });
+
+    $('.select2').select2();
+
 </script>
 @yield('custom_script')
 </body>

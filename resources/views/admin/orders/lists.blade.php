@@ -71,7 +71,7 @@
                                             @endif
                                             <td> {{$account->account->username}}</td>
                                             <td>
-                                                {{$account->price}}
+                                                 {{number_format($account->price)}} ریال
                                             </td>
                                             <td>
                                                 {{$account->number}}
@@ -81,8 +81,8 @@
                                             </td>
 
                                             <td>
-                                                <a href="{{url("orders/".$account->id.'/edit')}}" class="badge bg-danger">ویرایش</a>
-                                                <a href="{{url("orders/".$account->id.'/delete')}}" class="badge bg-success">حذف</a>
+                                                <a href="{{url("orders/".$account->id.'/edit')}}" class="btn btn-outline-primary">ویرایش</a>
+                                                <a href="{{url("orders/".$account->id.'/delete')}}" class="btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
                                         @endforeach

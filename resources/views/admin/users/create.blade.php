@@ -83,7 +83,7 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">ثبت</button>
+                                    <button type="submit" class="btn btn-primary btn-lg bg-gradient-primary">ثبت</button>
                                 </div>
                             </form>
                         </div>

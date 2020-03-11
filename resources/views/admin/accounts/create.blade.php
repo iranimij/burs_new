@@ -24,7 +24,7 @@
                         </div>
                         <div class="card-body col-md-6">
                             <?PHP
-                            $update_endpoint = isset($account->id) ? '/'. $account->id : "";
+                            use function App\Helpers\getKargozary;use function App\Helpers\getPanel;$update_endpoint = isset($account->id) ? '/'. $account->id : "";
                             ?>
                             <form role="form" method="post" action="{{url("/accounts".$update_endpoint)}}">
                                 @csrf
@@ -44,32 +44,36 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">کارگزاری</label>
-                                        <select class="form-control" name="kargozari" id="broker">
-                                            <option value="mofid" @if(isset($account->kargozari) && "mofid" == $account->kargozari) selected @endif>مفید</option>
-                                            <option value="farabi" @if(isset($account->kargozari) && "farabi" == $account->kargozari) selected @endif>فارابی</option>
-                                            <option value="agah" @if(isset($account->kargozari) && "agah" == $account->kargozari) selected @endif>آگاه</option>
-                                            <option value="atie" @if(isset($account->kargozari) && "atie" == $account->kargozari) selected @endif>آتیه</option>
+                                        <label for="exampleInputPassword1"> نام کارگزاری</label>
+                                        <select class="form-control select2" name="kargozari" id="broker">
+                                        <?PHP
+                                            $kargozaries = getKargozary();
+                                            foreach ($kargozaries as $key=>$kargozary) {
+                                            ?>
+                                            <option value="{{$key}}" @if(isset($account->kargozari) && $key == $account->kargozari) selected @endif>{{$kargozary}}</option>
+                                            <?PHP
+                                            }
+                                            ?>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">پنل</label>
+                                        <label for="exampleInputPassword1">پنل معاملاتی</label>
                                         <select class="form-control" name="panel" id="panel">
-                                            <option value="easytrader" @if(isset($account->kargozari) && "easytrader" == $account->panel) selected @endif>ایزی تریدر</option>
-                                            <option value="onlineplus" @if(isset($account->kargozari) && "onlineplus" == $account->panel) selected @endif>آنلاین پلاس</option>
-                                            <option value="mofidonline" @if(isset($account->kargozari) && "mofidonline" == $account->panel) selected @endif>مفید آنلاین</option>
-                                            <option value="exir" @if(isset($account->kargozari) && "exir" == $account->panel) selected @endif>اکسیر</option>
-                                            <option value="asatrader" @if(isset($account->kargozari) && "asatrader" == $account->panel) selected @endif>آسا تریدر</option>
-                                            <option value="farabixo" @if(isset($account->kargozari) && "farabixo" == $account->panel) selected @endif>فارابیکسو</option>
+                                            <?PHP
+                                            $panels = getPanel();
+                                            foreach ($panels as $key=>$panel) {
+                                            ?>
+                                            <option value="{{$key}}" @if(isset($account->kargozari) && $key == $account->panel) selected @endif>{{$panel}}</option>
 
+<?PHP } ?>
                                         </select>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">ثبت</button>
+                                    <button type="submit" class="btn btn-primary bg-gradient-primary btn-lg">ثبت</button>
                                 </div>
                             </form>
                         </div>

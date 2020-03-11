@@ -44,33 +44,21 @@
                                         <tbody>
 
                                         <?PHP
-                                        $kargozari_array = [
-                                            "mofid" => "مفید",
-                                            "farabi" => "فارابی",
-                                            "agah" => "آگاه",
-                                            "atie" => "آتیه",
-                                        ];
-                                        $panel_array = [
-                                            "easytrader" => "ایزی تریدر",
-                                            "onlineplus" => "آنلاین پلاس",
-                                            "mofidonline" => "مفید آنلاین",
-                                            "exir" => "اکسیر",
-                                            "asatrader" => "آسا تریدر",
-                                            "farabixo" => "فارابیکسو",
-                                        ];
+                                        use function App\Helpers\getKargozary;use function App\Helpers\getPanel;$kargozari_array = getKargozary();
+                                        $panel_array = getPanel();
                                         ?>
                                         @foreach($accounts as $account)
                                         <tr>
                                             @if(auth()->user()->permission == 1)
                                                 <td> {{$account->user->email}}</td>
                                             @endif
-                                            <td>{{$kargozari_array[$account->kargozari]}}</td>
+                                            <td>{{isset($kargozari_array[$account->kargozari]) ? $kargozari_array[$account->kargozari] : ""}}</td>
                                             <td>
-                                                {{$panel_array[$account->panel]}}
+                                                {{isset($panel_array[$account->panel]) ? $panel_array[$account->panel] : ""}}
                                             </td>
                                             <td>
-                                                <a href="{{url("accounts/".$account->id.'/edit')}}" class="badge bg-danger">ویرایش</a>
-                                                <a href="{{url("accounts/".$account->id.'/delete')}}" class="badge bg-success">حذف</a>
+                                                <a href="{{url("accounts/".$account->id.'/edit')}}" class="btn btn-outline-primary">ویرایش</a>
+                                                <a href="{{url("accounts/".$account->id.'/delete')}}" class="btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
                                         @endforeach

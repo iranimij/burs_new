@@ -24,22 +24,12 @@
                         </div>
                         <div class="card-body col-md-6">
                             <?PHP
-                            $kargozari_array = [
-                                "mofid" => "مفید",
-                                "farabi" => "فارابی",
-                                "agah" => "آگاه",
-                                "atie" => "آتیه",
-                            ];
-                            $panel_array = [
-                                "easytrader" => "ایزی تریدر",
-                                "onlineplus" => "آنلاین پلاس",
-                                "mofidonline" => "مفید آنلاین",
-                                "exir" => "اکسیر",
-                                "asatrader" => "آسا تریدر",
-                                "farabixo" => "فارابیکسو",
-                            ];
+
                             $update_endpoint = isset($order->id) ? '/'. $order->id : "";
-                            use App\Server;?>
+                            use App\Server;use function App\Helpers\getKargozary;use function App\Helpers\getPanel;
+                            $kargozari_array = getKargozary();
+                            $panel_array = getPanel();
+                            ?>
                             <form role="form" method="post" action="{{url("/orders".$update_endpoint)}}">
                                 @csrf
                                 @if(isset($order))
@@ -51,7 +41,7 @@
                                         <select class="form-control" name="account_id" id="broker" autocomplete="off">
                                             @if(isset($accounts))
                                                 @foreach($accounts as $account)
-                                            <option value="{{$account->id}}" @if(isset($order->account->id)) @if($order->account->id == $account->id) selected="selected" @endif @endif>{{$account->username}} | {{$kargozari_array[$account->kargozari]}} | {{$panel_array[$account->panel]}}</option>
+                                            <option value="{{$account->id}}" @if(isset($order->account->id)) @if($order->account->id == $account->id) selected="selected" @endif @endif>{{$account->username}} | {{isset($kargozari_array[$account->kargozari]) ? $kargozari_array[$account->kargozari] : ""}} | {{isset($panel_array[$account->panel]) ? $panel_array[$account->panel] : ""}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -69,18 +59,20 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">قیمت (به تومان)</label>
-                                        <input type="number" class="form-control" id="exampleInputEmail1"
-                                               placeholder="قیمت (به تومان)" name="price" value="@if(isset($order)){{$order->price}}@endif">
+                                        <label for="exampleInputEmail1">قیمت (به ریال)</label>
+                                        <input type="text" class="form-control currencyMask" id="exampleInputEmail1"
+                                               placeholder="قیمت (به ریال)" name="price" value="@if(isset($order)){{$order->price}}@endif">
+                                        <span class="currencyMaskToman badge badge-info"></span>
                                     </div>
+
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">تعداد</label>
-                                        <input type="number" class="form-control" id="exampleInputPassword1"
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
                                                placeholder="تعداد" name="number" value="@if(isset($order)){{$order->number}}@endif">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">نوع</label>
+                                        <label for="exampleInputPassword1">نوع سفارش</label>
                                         <select class="form-control" name="type" id="panel" autocomplete="off">
                                             <option value="buy" @if(isset($order->type)) @if($order->type == "buy") selected @endif @endif>خرید</option>
                                             <option value="sell" @if(isset($order->type)) @if($order->type == "sell") selected @endif @endif>فروش</option>
@@ -107,7 +99,7 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">ثبت</button>
+                                    <button type="submit" class="btn btn-primary btn-lg bg-gradient-primary">ثبت</button>
                                 </div>
                             </form>
                         </div>
@@ -122,6 +114,10 @@
 @section('custom_script')
 
     <script>
-        $('.select2').select2();
+        $(".currencyMask").keyup(function () {
+           var val = $(this).val();
+            $('.currencyMaskToman').html(parseInt(val/10).toLocaleString()+' تومان ')
+
+        });
     </script>
     @endsection

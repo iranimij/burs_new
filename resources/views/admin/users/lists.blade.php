@@ -49,9 +49,9 @@
                                                 {{$user->email}}
                                             </td>
                                             <td>
-                                                <a href="{{url("users/".$user->id.'/edit')}}" class="badge bg-danger">ویرایش</a>
+                                                <a href="{{url("users/".$user->id.'/edit')}}" class="btn btn-outline-primary">ویرایش</a>
                                                 <a href="{{url("users/".$user->id.'/delete')}}"
-                                                   class="badge bg-success">حذف</a>
+                                                   class="btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
                                     @endforeach
