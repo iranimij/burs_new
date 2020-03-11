@@ -691,3 +691,272 @@ function getPanel(){
       "exir" => "اکسیر",
     ];
 }
+
+
+function generate_cookie_file($broker, $panel, $name) {
+    //return 'cookies/cookies_' . $name . '_' . $broker . '_' . $panel . '.txt';
+    return 'cookies/cookies_' . $name . '.txt';
+}
+
+function get_broker_url($broker, $panel) {
+    switch ($broker) {
+        case 'mofid':
+            switch ($panel) {
+                case 'easytrader':
+                    return 'https://old.easytrader.emofid.com';
+                    break;
+                case 'onlineplus':
+                    return 'https://onlineplus.mofidonline.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://mofidonline.com';
+                    break;
+                case 'easytrader2':
+                    return 'https://d11.emofid.com';
+                    break;
+            }
+            break;
+        case 'isatis':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.ipb.ir';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.ipb.ir';
+                    break;
+            }
+            break;
+        case 'mobin':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.mobinsb.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.mobinsb.com';
+                    break;
+            }
+            break;
+        case 'agah':
+            switch ($panel) {
+                case 'asatrader':
+                    return 'https://online.agah.com';
+                    break;
+            }
+            break;
+        case 'pegah':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.pegahbourse.ir';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.pegahbourse.ir';
+                    break;
+            }
+            break;
+        case 'shahedan':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.nashbro.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.nashbro.com';
+                    break;
+            }
+            break;
+        case 'ordibehesht':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.oibourse.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.oibourse.com';
+                    break;
+            }
+            break;
+        case 'mellat':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.mellatbroker.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.mellatbroker.com';
+                    break;
+            }
+            break;
+        case 'aban':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.aban.net';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.aban.net';
+                    break;
+            }
+            break;
+        case 'danayan':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.dp-broker.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.dp-broker.com';
+                    break;
+            }
+            break;
+        case 'farabi':
+            switch ($panel) {
+                case 'farabixo':
+                    return 'https://farabixo.com';
+                    break;
+            }
+            break;
+        case 'noandishan':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://noandishan.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'agri':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://agribourse.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'bidar':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://ebb.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'atisaz':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://atisaz.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'kharazmi':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.kharazmibroker.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://trade2.kharazmibroker.com';
+                    break;
+            }
+            break;
+        case 'maskan':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.maskanbourse.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.maskanbourse.com';
+                    break;
+            }
+            break;
+        case 'sepehr':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://sepehr.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'hafez':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.hafezbrokerage.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://www.hafezbrokerage.com';
+                    break;
+            }
+            break;
+        case 'tadbir':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://tadbir.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'arman':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.armanbroker.ir';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.armanbroker.ir';
+                    break;
+            }
+            break;
+        case 'dey':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.daybankbroker.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.daybankbroker.com';
+                    break;
+            }
+            break;
+        case 'saman':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.samanbourse.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.samanbourse.com';
+                    break;
+            }
+            break;
+        case 'sahand':
+            switch ($panel) {
+                case 'exir':
+                    return 'https://sahand.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'danesh': //سرمایه و دانش
+            switch ($panel) {
+                case 'exir':
+                    return 'https://ck.exirbroker.com';
+                    break;
+            }
+            break;
+        case 'ebraz':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.ebrazonline.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://www.ebrazonline.com';
+                    break;
+            }
+            break;
+        case 'ansar':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'http://silver.ansarbankbroker.com';
+                    break;
+                case 'mofidonline':
+                    return 'http://online.ansarbankbroker.com';
+                    break;
+            }
+            break;
+        case 'melal':
+            switch ($panel) {
+                case 'onlineplus':
+                    return 'https://silver.melalsecurities.com';
+                    break;
+                case 'mofidonline':
+                    return 'https://online.melalsecurities.com';
+                    break;
+            }
+            break;
+    }
+    //TODO: another broker
+
+}
