@@ -640,3 +640,10 @@ function jalali_to_gregorian($jy,$jm,$jd,$mod=''){
  return($mod==='')?array($gy,$gm,$gd):$gy .$mod .$gm .$mod .$gd;
 }
 
+function addCheckUserIsValidate($id){
+    if (auth()->user()->id == $id || auth()->user()->permission == 1){
+
+    }else{
+        abort(404);
+    }
+}

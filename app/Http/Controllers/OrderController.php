@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use function App\Helpers\addCheckUserIsValidate;
 
 class OrderController extends Controller
 {
@@ -99,6 +100,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
+        addCheckUserIsValidate(Order::where("id",$id)->first()->user_id);
         $order = Order::where("id", $id)->first();
         $accounts = Account::where("user_id", auth()->user()->id)->get();
         $namad_json = file_get_contents(asset("json/namad.json"));
@@ -115,6 +117,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        addCheckUserIsValidate(Order::where("id",$id)->first()->user_id);
         $request->validate([
             'account_id' => 'required',
             'namad' => 'required|string',
@@ -153,6 +156,7 @@ class OrderController extends Controller
 
     function deleteAccount($id)
     {
+        addCheckUserIsValidate(Order::where("id",$id)->first()->user_id);
         Order::where("id", $id)->delete();
         Session::flash('success', "با موفقیت حذف شد.");
         return redirect()->back();

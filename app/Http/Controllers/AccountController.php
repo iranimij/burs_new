@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use function App\Helpers\addCheckIsModieQuery;
+use function App\Helpers\addCheckUserIsValidate;
 
 class AccountController extends Controller
 {
@@ -86,6 +88,7 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
+        addCheckUserIsValidate(Account::where("id",$id)->first()->user_id);
         $account = Account::where("id",$id)->first();
         return view('admin.accounts.create', ['account' => $account]);
     }
@@ -99,6 +102,7 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
+        addCheckUserIsValidate(Account::where("id",$id)->first()->user_id);
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
