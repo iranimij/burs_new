@@ -33,7 +33,6 @@ class HomeController extends Controller
 //        ], "/");
 //        $app->run();
 
-
         return view('admin.dashboard');
     }
 }

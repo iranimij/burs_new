@@ -320,8 +320,35 @@ $current_url = url()->current();
                                 </li>
                             </ul>
                         </li>
-                    @endif
 
+                    @endif
+                    <li class="nav-item has-treeview @if(strpos($current_url,"logs") !== false) menu-open @endif">
+                        <a href="#" class="nav-link @if(strpos($current_url,"logs") !== false) active @endif ">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                گزارشات
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{url("logs")}}"
+                                   class="nav-link @if($current_url == url("logs")) active @endif">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p> گزارشات من</p>
+                                </a>
+                            </li>
+                            @if(auth()->user()->permission == 1)
+                                <li class="nav-item">
+                                    <a href="{{url("all-logs")}}"
+                                       class="nav-link @if($current_url == url("all-logs")) active @endif">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>تمامی گزارشات</p>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('logout') }}" class="nav-link">
                             <i class="nav-icon fas fa-door-closed"></i>

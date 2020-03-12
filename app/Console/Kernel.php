@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Helpers\PrepareWebRequest;
+use App\Log;
 use App\Order;
 use App\Server;
 use Chumper\Zipper\Facades\Zipper;
@@ -26,7 +27,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -44,9 +45,8 @@ class Kernel extends ConsoleKernel
 
             $ssh = new SSH2($host);
             if (!$ssh->login($username, $password)) {
-                $output ='Login Failed';
-            }
-            else{
+                $output = 'Login Failed';
+            } else {
                 $output = $ssh->exec($command);
             }
             //this is time for run code
@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
         //this is for send order
         $schedule->call(function () {
 
-            $orders = Order::all();
+            $orders = Order::where("deleted", null)->get();
             $servers = [];
             foreach ($orders as $order) {
 
@@ -67,48 +67,55 @@ class Kernel extends ConsoleKernel
                 $kargozari = $order->account->kargozari;
                 $panel = $order->account->panel;
                 $user = $order->user->username;
-                $command = 'nohup php send_ts.php u='.$user.'_'.$panel.'_'.$kargozari.' s='.$namad_id.' q='.$sahm_number.' p='.$price.' t='.$type.' ts=58 te=05 ms=0.01 &>nohup_log1.out &';
-                $server_obj = Server::where("id",$server_id)->first();
-                if (isset($server_obj->ip)){
-                $host = $server_obj->ip;
-                $username = $server_obj->username;
-                $password = $server_obj->password;
-                $command = 'rmdir imanTestDirctory';
+                $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts=58 te=05 ms=0.01 &>nohup_log1.out &';
+                $server_obj = Server::where("id", $server_id)->first();
+                if (isset($server_obj->ip)) {
+                    $host = $server_obj->ip;
+                    $username = $server_obj->username;
+                    $password = $server_obj->password;
 
-                $this->createZipFiles();
+                    $this->createZipFiles();
+                    $sftp = new SFTP($host);
+                    $logs = new Log();
+                    $logs->user_id = $order->user->id;
+                    $logs->order_id = $order->id;
+                    $logs->status = "login_request";
+                    $logs->save();
 
+                        if (@!$sftp->login($username, $password)) {
+                            Log::where("id", $logs->id)->update([
+                                "status" => "failed_login"
+                            ]);
+                        } else {
 
-                $sftp = new SFTP($host);
-                if (!$sftp->login($username,$password)) {
-                    exit('Login Failed');
-                }
-
-                $sftp->put('temp_upload.zip', 'temp_upload.zip', SFTP::SOURCE_LOCAL_FILE);
-                $sftp->exec('unzip temp_upload.zip');
-
-
-
-//                $ssh = new SSH2($host);
-//                if (!$ssh->login($username, $password)) {
-//                    $output ='Login Failed';
-//                }
-//                else{
-////                    $ssh->exec('unzip -o /root/temp_upload.zip' . ' -d /root/cookie');
-//                    $ssh->exec('unzip temp_upload.zip');
-//                    $ssh->exec('rm -y temp_upload.zip');
-////                    $output = $ssh->exec($command);
-//                }
-
-                unlink('temp_upload.zip') ;
-                Order::where("id",$order->id)->update([
-                    "deleted" => 1
-                ]);
+                            $upload_files = $sftp->put('temp_upload.zip', 'temp_upload.zip', SFTP::SOURCE_LOCAL_FILE);
+                            if ($upload_files) {
+                                Log::where("id", $logs->id)->update([
+                                    "status" => "uploaded"
+                                ]);
+                            }
+                            $extract_files = $sftp->exec('unzip -o temp_upload.zip' . ' -d /root/');
+                            if ($upload_files) {
+                                Log::where("id", $logs->id)->update([
+                                    "status" => "extract_files"
+                                ]);
+                            }
+                            $send_request = $sftp->exec($command);
+                            if ($upload_files) {
+                                Log::where("id", $logs->id)->update([
+                                    "status" => "success"
+                                ]);
+                            }
+                            unlink('temp_upload.zip');
+                        }
+                    Order::where("id", $order->id)->update([
+                        "deleted" => 1
+                    ]);
                 }
             }
             //this is time for run code
-        })->dailyAt('08:00');
-//        })->everyMinute();
-
+//        })->dailyAt('08:00');
+        })->everyMinute();
 
 
     }
@@ -120,38 +127,17 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
 
-    public function createZipFiles(){
-        $files = [
-            'send_ts.php',
-            'send_ts2.php',
-            'accounts.php',
-            'info.php',
-            'login.php',
-            'tickers.txt',
-            'test_time.php',
-            'send_ts2 - Copy.php',
-            'send_ts_manual.php',
-            'create_logs.php',
-            'functions.php',
-        ];
+    public function createZipFiles()
+    {
+
         $folder = 'cookie';
-        foreach ($files as $item) {
-            if (!file_exists($folder)){
-                mkdir($folder);
-            }
-            fopen($folder.'/'.$item, "w") ;
-        }
-        $created_files = glob($folder.'/*');
+        $created_files = glob($folder . '/*');
         Zipper::make('temp_upload.zip')->add($created_files)->close();
 
-        foreach ($files as $item) {
-            unlink($folder.'/'.$item) ;
-        }
-        rmdir($folder);
     }
 }

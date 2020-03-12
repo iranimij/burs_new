@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resources([
         'accounts' => 'AccountController',
         'orders' => 'OrderController',
+        'logs' => 'LogController',
     ]);
     Route::get('/accounts/{id}/delete', 'AccountController@deleteAccount');
     Route::get('/orders/{id}/delete', 'OrderController@deleteAccount');
@@ -41,6 +42,7 @@ Route::middleware(['admin'])->group(function () {
     ]);
     Route::get('/users/{id}/delete', 'UserController@deleteAccount');
     Route::get('/all-orders', 'OrderController@showAllOrders');
+    Route::get('/all-logs', 'LogController@showAllLogs');
     Route::get('/accounts-all', 'AccountController@showAllAccounts');
     Route::post('/check-server-is-validate', 'ServerController@checkServerIsValid');
 
