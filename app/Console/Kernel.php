@@ -33,11 +33,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
         //place for login
         $schedule->call(function () {
+            $this->createAccountcFile();
 
-            get_broker_url("");
 
             $host = "185.51.202.111";
             $username = "root";
@@ -52,26 +51,12 @@ class Kernel extends ConsoleKernel
             }
             //this is time for run code
         })->dailyAt('06:00');
+//    })->everyMinute();
 
         //this is for send order
         $schedule->call(function () {
 
-            $accounts = Account::all();
-            $acc_res= [];
-            $text = '<?PHP $accounts = [';
-            foreach ($accounts as $account) {
-                $text .= '"'.$account->user->email.'_'.$account->kargozari.'_'.$account->panel.'"'.'=> [
-                "username" => "'.$account->username.'",
-                "password" => "'.$account->password.'",
-                "broker" => "'.$account->kargozari.'",
-                "panel" => "'.$account->panel.'",
-                "capital" => "'.'all'.'",
-                "server" => '.true.',
-                "enable" => '.true.',
-            ], ';
-            };
-            $text .= '] ?>';
-            file_put_contents("accounts.php",$text);
+
 
             $orders = Order::where("deleted", null)->get();
             $servers = [];
@@ -132,8 +117,8 @@ class Kernel extends ConsoleKernel
                 }
             }
             //this is time for run code
-//        })->dailyAt('08:00');
-        })->everyMinute();
+        })->dailyAt('08:00');
+//       })->everyMinute();
 
 
     }
@@ -157,5 +142,24 @@ class Kernel extends ConsoleKernel
         $created_files = glob($folder . '/*');
         Zipper::make('temp_upload.zip')->add($created_files)->close();
 
+    }
+
+    public function createAccountcFile(){
+        $accounts = Account::all();
+        $acc_res= [];
+        $text = '<?PHP $accounts = [';
+        foreach ($accounts as $account) {
+            $text .= '"'.$account->user->email.'_'.$account->kargozari.'_'.$account->panel.'"'.'=> [
+                "username" => "'.$account->username.'",
+                "password" => "'.$account->password.'",
+                "broker" => "'.$account->kargozari.'",
+                "panel" => "'.$account->panel.'",
+                "capital" => "'.'all'.'",
+                "server" => '.true.',
+                "enable" => '.true.',
+            ], ';
+        };
+        $text .= '] ?>';
+        file_put_contents("accounts.php",$text);
     }
 }

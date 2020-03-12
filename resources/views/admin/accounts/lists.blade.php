@@ -32,6 +32,7 @@
                                         <tr>
                                             @if(auth()->user()->permission == 1)
                                             <th>نام کاربری مدیر اکانت</th>
+                                            <th>نام کاربری</th>
                                             @endif
                                             <th>کارگزاری</th>
                                             <th>پنل</th>
@@ -52,6 +53,7 @@
                                             @if(auth()->user()->permission == 1)
                                                 <td> {{$account->user->email}}</td>
                                             @endif
+                                                <td>{{$account->username}}</td>
                                             <td>{{isset($kargozari_array[$account->kargozari]) ? $kargozari_array[$account->kargozari] : ""}}</td>
                                             <td>
                                                 {{isset($panel_array[$account->panel]) ? $panel_array[$account->panel] : ""}}

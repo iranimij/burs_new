@@ -30,11 +30,11 @@
                 "capital" => "all",
                 "server" => 1,
                 "enable" => 1,
-            ], "iranimij@gmail.com_shahedan_mofidonline"=> [
+            ], "iranimij@gmail.com_agri_exir"=> [
                 "username" => "rrwar",
                 "password" => "rrrrrr",
-                "broker" => "shahedan",
-                "panel" => "mofidonline",
+                "broker" => "agri",
+                "panel" => "exir",
                 "capital" => "all",
                 "server" => 1,
                 "enable" => 1,
