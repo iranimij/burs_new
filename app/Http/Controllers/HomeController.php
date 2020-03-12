@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Helpers\WebRequest;
 use Chumper\Zipper\Facades\Zipper;
 use Illuminate\Http\Request;

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Account;
 use App\Helpers\PrepareWebRequest;
 use App\Log;
 use App\Order;
@@ -55,6 +56,23 @@ class Kernel extends ConsoleKernel
         //this is for send order
         $schedule->call(function () {
 
+            $accounts = Account::all();
+            $acc_res= [];
+            $text = '<?PHP $accounts = [';
+            foreach ($accounts as $account) {
+                $text .= '"'.$account->user->email.'_'.$account->kargozari.'_'.$account->panel.'"'.'=> [
+                "username" => "'.$account->username.'",
+                "password" => "'.$account->password.'",
+                "broker" => "'.$account->kargozari.'",
+                "panel" => "'.$account->panel.'",
+                "capital" => "'.'all'.'",
+                "server" => '.true.',
+                "enable" => '.true.',
+            ], ';
+            };
+            $text .= '] ?>';
+            file_put_contents("accounts.php",$text);
+
             $orders = Order::where("deleted", null)->get();
             $servers = [];
             foreach ($orders as $order) {
@@ -66,7 +84,7 @@ class Kernel extends ConsoleKernel
                 $type = $order->type == "buy" ? "b" : "s";
                 $kargozari = $order->account->kargozari;
                 $panel = $order->account->panel;
-                $user = $order->user->username;
+                $user = $order->user->email;
                 $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts=58 te=05 ms=0.01 &>nohup_log1.out &';
                 $server_obj = Server::where("id", $server_id)->first();
                 if (isset($server_obj->ip)) {
@@ -106,16 +124,16 @@ class Kernel extends ConsoleKernel
                                     "status" => "success"
                                 ]);
                             }
-                            unlink('temp_upload.zip');
                         }
+                    unlink('temp_upload.zip');
                     Order::where("id", $order->id)->update([
                         "deleted" => 1
                     ]);
                 }
             }
             //this is time for run code
-        })->dailyAt('08:00');
-//        })->everyMinute();
+//        })->dailyAt('08:00');
+        })->everyMinute();
 
 
     }
