@@ -77,7 +77,7 @@
                                                 {{isset($panel_array[$account->order->account->panel])  ? $panel_array[$account->order->account->panel] : ""}}
                                             </td>
                                                 <td>
-                                                    <?=jdate("Y/m/d H:i:s")?>
+                                                    <?=jdate("Y-m-d H:i:s",strtotime($account->created_at))?>
                                                 </td>
                                             <td>
                                                 <span class="badge badge-info">{{isset($status_array[$account->status]) ? $status_array[$account->status] : ""}}</span>
