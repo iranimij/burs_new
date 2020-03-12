@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section("title","لیست گزارشات")
 @section("content")
-
+<?PHP use function App\Helpers\jdate;?>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -21,7 +21,10 @@
 
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h5 class="m-0">لیست گزارشات</h5>
+                            <h5 class="m-0 float-right">لیست گزارشات</h5>
+                            @if(auth()->user()->permission == 1)
+                            <a href="{{url("logsclear")}}" class="btn btn-outline-primary float-left">حذف تمامی گزارشات</a>
+                            @endif
                         </div>
                         <div class="card-body col-md-12">
 
@@ -37,6 +40,7 @@
                                             <th>قیمت</th>
                                             <th>تعداد</th>
                                             <th>پنل</th>
+                                            <th>زمان</th>
                                             <th style="width: 20%">
                                                 وضعیت
                                             </th>
@@ -72,6 +76,9 @@
                                                 <td>
                                                 {{isset($panel_array[$account->order->account->panel])  ? $panel_array[$account->order->account->panel] : ""}}
                                             </td>
+                                                <td>
+                                                    <?=jdate("Y/m/d H:i:s")?>
+                                                </td>
                                             <td>
                                                 <span class="badge badge-info">{{isset($status_array[$account->status]) ? $status_array[$account->status] : ""}}</span>
                                             </td>

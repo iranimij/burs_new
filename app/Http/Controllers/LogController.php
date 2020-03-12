@@ -106,4 +106,10 @@ class LogController extends Controller
 
 
     }
+
+    public function EmptyAllLogs(){
+        Log::truncate();
+        Session::flash('success' , "با موفقیت حذف شد.");
+        return redirect()->back();
+    }
 }

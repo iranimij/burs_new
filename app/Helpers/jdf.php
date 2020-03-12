@@ -680,7 +680,41 @@ function getKargozary(){
         "melal" => "ملل",
     ];
 }
-
+function getKargozaryName($kargozari){
+    $data = [
+        "mofid" => "مفید",
+        "isatis" => "ایساتیس",
+        "mobin" => "مبین",
+        "agah" => "آگاه",
+        "pegah" => "پگاه",
+        "shahedan" => "شاهدان",
+        "ordibehesht" => "اردیبهشت",
+        "mellat" => "ملت",
+        "aban" => "آبان",
+        "danayan" => "دانایان",
+        "farabi" => "فارابی",
+        "noandishan" => "نواندیشان",
+        "agri" => "کشاورزی",
+        "bidar" => "بیدار",
+        "atisaz" => "آتیساز",
+        "kharazmi" => "خارزمی",
+        "maskan" => "مسکن",
+        "sepehr" => "سپهر",
+        "hafez" => "حافظ",
+        "tadbir" => "تدبیر",
+        "arman" => "آرمان",
+        "dey" => "دی",
+        "saman" => "سامان",
+        "sahand" => "سهند",
+        "danesh" => "دانش",
+        "ebraz" => "ابراز",
+        "ansar" => "انصار",
+        "melal" => "ملل",
+    ];
+    if (isset($data[$kargozari])){
+        return $data[$kargozari];
+    }
+}
 function getPanel(){
     return [
       "easytrader" => "ایسی تریدر",
@@ -690,6 +724,20 @@ function getPanel(){
       "farabixo" => "فارابیکسو",
       "exir" => "اکسیر",
     ];
+}
+function getPanelName($panel){
+    $data= [
+      "easytrader" => "ایسی تریدر",
+      "onlineplus" => "آنلاین پلاس",
+      "mofidonline" => "مفید آنلاین",
+      "easytrader2" => "ایسی تریدر 2",
+      "farabixo" => "فارابیکسو",
+      "exir" => "اکسیر",
+    ];
+
+    if (isset($data[$panel])){
+        return $data[$panel];
+    }
 }
 
 

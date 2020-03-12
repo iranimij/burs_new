@@ -1,7 +1,14 @@
 @extends('layouts.dashboard')
 @section("title","ساخت اکانت")
 @section("content")
-
+    <style>
+        #panel option{
+            display: none;
+        }
+        #panel option.active{
+            display: block;
+        }
+    </style>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -24,7 +31,7 @@
                         </div>
                         <div class="card-body col-md-6">
                             <?PHP
-                            use function App\Helpers\getKargozary;use function App\Helpers\getPanel;$update_endpoint = isset($account->id) ? '/'. $account->id : "";
+                            use function App\Helpers\getKargozary;use function App\Helpers\getKargozaryName;use function App\Helpers\getPanel;use function App\Helpers\getPanelName;$update_endpoint = isset($account->id) ? '/'. $account->id : "";
                             ?>
                             <form role="form" method="post" action="{{url("/accounts".$update_endpoint)}}">
                                 @csrf
@@ -42,15 +49,22 @@
                                         <input type="password" class="form-control" id="exampleInputPassword1"
                                                placeholder="کلمه عبور" name="password" value="@if(isset($account)){{$account->password}}@endif">
                                     </div>
+<?PHP
 
+                                    $files = file_get_contents(base_path("assets/json/boka.json"));
+                                    $files = json_decode($files);
+
+                                    ?>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1"> نام کارگزاری</label>
                                         <select class="form-control select2" name="kargozari" id="broker">
+                                            <option value=""></option>
                                         <?PHP
-                                            $kargozaries = getKargozary();
-                                            foreach ($kargozaries as $key=>$kargozary) {
+
+                                            foreach ($files as $key=>$item) {
+                                            $kargozary = getKargozaryName($key);
                                             ?>
-                                            <option value="{{$key}}" @if(isset($account->kargozari) && $key == $account->kargozari) selected @endif>{{$kargozary}}</option>
+                                            <option data-kargoizari_id="<?=$key?>" value="{{$key}}" @if(isset($account->kargozari) && $key == $account->kargozari) selected @endif >{{$kargozary}}</option>
                                             <?PHP
                                             }
                                             ?>
@@ -60,13 +74,18 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">پنل معاملاتی</label>
                                         <select class="form-control" name="panel" id="panel">
+                                            <option value=""></option>
                                             <?PHP
-                                            $panels = getPanel();
-                                            foreach ($panels as $key=>$panel) {
-                                            ?>
-                                            <option value="{{$key}}" @if(isset($account->kargozari) && $key == $account->panel) selected @endif>{{$panel}}</option>
 
-<?PHP } ?>
+                                            foreach ($files as $key=>$kargozari) {
+
+                                                foreach ($kargozari as $item) {
+
+                                            ?>
+                                            <option value="{{$item}}" data-kargozari="<?=$key?>" @if(isset($account->kargozari) && $item == $account->panel) selected @endif><?=getPanelName($item)?></option>
+
+<?PHP }
+                                            } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -84,3 +103,15 @@
         </div><!-- /.container-fluid -->
     </div>
 @endsection
+@section("custom_script")
+    <script>
+        var kargozariName = $('#broker option:selected').attr("data-kargoizari_id");
+        $('#panel option[data-kargozari='+kargozariName+']').addClass("active");
+
+        $('#broker').on("change",function () {
+            $('#panel option').removeClass("active");
+            var kargozariName = $('#broker option:selected').attr("data-kargoizari_id");
+            $('#panel option[data-kargozari='+kargozariName+']').addClass("active");
+        })
+    </script>
+@endsection()

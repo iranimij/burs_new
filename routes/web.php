@@ -43,6 +43,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/users/{id}/delete', 'UserController@deleteAccount');
     Route::get('/all-orders', 'OrderController@showAllOrders');
     Route::get('/all-logs', 'LogController@showAllLogs');
+    Route::get('/logsclear', 'LogController@EmptyAllLogs');
     Route::get('/accounts-all', 'AccountController@showAllAccounts');
     Route::post('/check-server-is-validate', 'ServerController@checkServerIsValid');
 
