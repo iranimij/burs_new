@@ -114,8 +114,8 @@ class Kernel extends ConsoleKernel
                 }
             }
             //this is time for run code
-//        })->dailyAt('08:00');
-        })->everyMinute();
+        })->dailyAt('08:00');
+//        })->everyMinute();
 
 
     }
