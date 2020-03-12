@@ -66,11 +66,17 @@ class Kernel extends ConsoleKernel
                 $sahm_number = $order->number;
                 $price = $order->price;
                 $server_id = $order->server;
+                //new variables
+                $ts = isset($order->ts) ? $order->ts : "58";
+                $te = isset($order->te) ? $order->te : "05";
+                $ms = isset($order->ms) ? $order->ms : "0.01";
+                $high_speed = isset($order->account->high_speed) ? true : false;
+                /////////
                 $type = $order->type == "buy" ? "b" : "s";
                 $kargozari = $order->account->kargozari;
                 $panel = $order->account->panel;
                 $user = $order->user->email;
-                $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts=58 te=05 ms=0.01 &>nohup_log1.out &';
+                $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts='.$ts.' te='.$te.' ms='.$ms.' &>nohup_log1.out &';
                 $server_obj = Server::where("id", $server_id)->first();
                 if (isset($server_obj->ip)) {
                     $host = $server_obj->ip;
