@@ -72,6 +72,9 @@ class OrderController extends Controller
         $orders->user_id = auth()->user()->id;
         $orders->namad = $request->namad;
         $orders->server = $request->myserver;
+        $orders->ts = isset($request->ts) ? $request->ts : null;
+        $orders->te = isset($request->te) ? $request->te : null;
+        $orders->ms = isset($request->ms) ? $request->ms : null;
         $orders->number = $request->number;
         $orders->price = $request->price;
         $orders->type = $request->type;
@@ -138,6 +141,9 @@ class OrderController extends Controller
                     "namad" => $request->namad,
                     "server" => $request->myserver,
                     "number" => $request->number,
+                    "ts" => isset($request->ts) ? $request->ts : null,
+                    "te" => isset($request->te) ? $request->te : null,
+                    "ms" => isset($request->ms) ? $request->ms : null,
                     "price" => $request->price,
                     "type" => $request->type,
                 ]

@@ -72,6 +72,24 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="exampleInputPassword1">ثانیه شروع</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="ثانیه شروع" name="ts" value="@if(isset($order)){{$order->ts}}@else{{58}}@endif" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">ثانیه اتمام</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="ثانیه اتمام" name="te" value="@if(isset($order)){{$order->te}}@else{{05}}@endif">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">ثانیه تکرار</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="ثانیه تکرار" name="ms" value="@if(isset($order)){{$order->ms}}@else{{0.01}}@endif">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="exampleInputPassword1">نوع سفارش</label>
                                         <select class="form-control" name="type" id="panel" autocomplete="off">
                                             <option value="buy" @if(isset($order->type)) @if($order->type == "buy") selected @endif @endif>خرید</option>

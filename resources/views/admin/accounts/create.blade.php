@@ -8,6 +8,9 @@
         #panel option.active{
             display: block;
         }
+        .high_speed_parent{
+            display: none;
+        }
     </style>
     <div class="content">
         <div class="container-fluid">
@@ -88,6 +91,11 @@
                                             } ?>
                                         </select>
                                     </div>
+
+                                    <div class="form-group high_speed_parent">
+                                        <label for="exampleInputPassword1">سرعت بیشتر</label>
+                                        <input id="high_speed_input" type="checkbox" name="high_speed" value="1" @if(isset($account->high_speed)) checked @endif autocomplete="off">
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
 
@@ -113,5 +121,21 @@
             var kargozariName = $('#broker option:selected').attr("data-kargoizari_id");
             $('#panel option[data-kargozari='+kargozariName+']').addClass("active");
         })
+
+        var value = $('#panel').val();
+        if(value === "onlineplus" || value === "mofidonline"){
+            $('.high_speed_parent').slideDown();
+        }else{
+            $('.high_speed_parent').slideUp();
+        }
+        $('#panel').on("change",function () {
+            var value = $(this).val();
+            if(value === "onlineplus" || value === "mofidonline"){
+                $('.high_speed_parent').slideDown();
+            }else{
+                $('.high_speed_parent').slideUp();
+                $('#high_speed_input').prop("checked", false);
+            }
+        });
     </script>
 @endsection()

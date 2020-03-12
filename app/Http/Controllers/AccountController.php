@@ -57,10 +57,14 @@ class AccountController extends Controller
             'password' => 'required|string',
         ]);
         $accounts = new Account();
+        if ($request->high_speed && ($request->panel !== "onlineplus" && $request->panel !== "mofidonline")){
+            return redirect()->back()->withErrors("امکان سرعت بالا برای این پنل نیست.");
+        }
 
         $accounts->username = $request->username;
         $accounts->user_id = auth()->user()->id;
         $accounts->password = $request->password;
+        $accounts->high_speed = $request->high_speed;
         $accounts->kargozari = $request->kargozari;
         $accounts->panel = $request->panel;
 
@@ -107,6 +111,9 @@ class AccountController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
+        if ($request->high_speed && ($request->panel !== "onlineplus" && $request->panel !== "mofidonline")){
+            return redirect()->back()->withErrors("امکان سرعت بالا برای این پنل نیست.");
+        }
         Account::where('id', $id)
             ->update(
                 [
@@ -114,6 +121,7 @@ class AccountController extends Controller
                     'password' => $request->password,
                     'kargozari' => $request->kargozari,
                     'panel' => $request->panel,
+                    'high_speed' => $request->high_speed
                 ]
             );
         Session::flash('success' , "با موفقیت ذخیره شد.");
