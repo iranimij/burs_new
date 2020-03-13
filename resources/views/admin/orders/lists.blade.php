@@ -82,7 +82,7 @@
 
                                             <td>
                                                 <a href="{{url("orders/".$account->id.'/edit')}}" class="btn btn-outline-primary">ویرایش</a>
-                                                <a href="{{url("orders/".$account->id.'/delete')}}" class="btn btn-danger">حذف</a>
+                                                <a id="hazf" href="{{url("orders/".$account->id.'/delete')}}" class="btn btn-danger">حذف</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -105,3 +105,17 @@
         </div><!-- /.container-fluid -->
     </div>
 @endsection
+
+@section("custom_script")
+    <script>
+        $('#hazf').on("click",function (e) {
+            var answer=confirm('آیا واقعا میخواهید حذف کنید ؟');
+            if(answer){
+
+            }
+            else{
+                e.preventDefault();
+            }
+        })
+    </script>
+    @endsection

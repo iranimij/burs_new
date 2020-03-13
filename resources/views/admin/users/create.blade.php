@@ -69,7 +69,7 @@
                                                 ?>
                                                 @if(is_object($servers))
                                                     @foreach($servers as $server)
-                                                        <option value="{{$server->id}}" @if(!empty($account->server) && in_array($server->id,json_decode($account->server))) selected @endif>{{$server->name}}</option>
+                                                        <option value="{{$server->id}}" @if(!empty($account->server) && in_array($server->id,json_decode($account->server))) selected @endif>{{$server->name}} ({{$server->ip}})</option>
                                                         @endforeach
                                                         @endif
                                             </select>
