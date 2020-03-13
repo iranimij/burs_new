@@ -33,9 +33,6 @@ class HomeController extends Controller
 //            "port" => "22"
 //        ], "/");
 //        $app->run();
-        $folder = 'cookie';
-        $created_files = glob($folder . '/*');
-        Zipper::make('temp_upload.zip')->add($created_files)->close();
         return view('admin.dashboard');
     }
 }

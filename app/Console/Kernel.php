@@ -76,6 +76,9 @@ class Kernel extends ConsoleKernel
                 $kargozari = $order->account->kargozari;
                 $panel = $order->account->panel;
                 $user = $order->user->email;
+                if ($high_speed){
+                file_put_contents("cookie/replacing.txt",$panel);
+                }
                 $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts='.$ts.' te='.$te.' ms='.$ms.' &>nohup_log1.out &';
                 $server_obj = Server::where("id", $server_id)->first();
                 if (isset($server_obj->ip)) {
@@ -123,8 +126,8 @@ class Kernel extends ConsoleKernel
                 }
             }
             //this is time for run code
-        })->dailyAt('08:00');
-//       })->everyMinute();
+//        })->dailyAt('08:00');
+       })->everyMinute();
 
 
     }
@@ -145,7 +148,11 @@ class Kernel extends ConsoleKernel
     {
 
         $folder = 'cookie';
+        $created_new_files= [];
+//        $new_folder = 'new_folder';
         $created_files = glob($folder . '/*');
+//        $created_new_files = glob($new_folder . '/*');
+        $created_files = array_merge($created_files,$created_new_files);
         Zipper::make('temp_upload.zip')->add($created_files)->close();
 
     }
