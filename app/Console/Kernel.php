@@ -77,7 +77,7 @@ class Kernel extends ConsoleKernel
                 $panel = $order->account->panel;
                 $user = $order->user->email;
                 if ($high_speed){
-                file_put_contents("cookie/replacing.txt",$panel);
+                    file_put_contents("cookie/replacing.txt",$panel);
                 }
                 $command = 'nohup php send_ts.php u=' . $user . '_' . $panel . '_' . $kargozari . ' s=' . $namad_id . ' q=' . $sahm_number . ' p=' . $price . ' t=' . $type . ' ts='.$ts.' te='.$te.' ms='.$ms.' &>nohup_log1.out &';
                 $server_obj = Server::where("id", $server_id)->first();
